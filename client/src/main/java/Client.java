@@ -33,7 +33,12 @@ public class Client
             
             Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 public void run() {
-                    server.detach(observer);
+                    try {
+                        server.detach(observer);
+                    } catch (Exception e) {
+                        // Do nothing
+                    }
+                    
                 }
             }, "Shutdown-thread"));
             
