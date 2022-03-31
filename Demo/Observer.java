@@ -19,7 +19,7 @@ public interface Observer extends com.zeroc.Ice.Object
 {
     void update(SubjectPrx subject, com.zeroc.Ice.Current current);
 
-    void msg(String msg, com.zeroc.Ice.Current current);
+    void msg(Message msg, com.zeroc.Ice.Current current);
 
     /** @hidden */
     static final String[] _iceIds =
@@ -74,9 +74,11 @@ public interface Observer extends com.zeroc.Ice.Object
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        String iceP_msg;
-        iceP_msg = istr.readString();
+        final com.zeroc.IceInternal.Holder<Message> icePP_msg = new com.zeroc.IceInternal.Holder<>();
+        istr.readValue(v -> icePP_msg.value = v, Message.class);
+        istr.readPendingValues();
         inS.endReadParams();
+        Message iceP_msg = icePP_msg.value;
         obj.msg(iceP_msg, current);
         return inS.setResult(inS.writeEmptyParams());
     }

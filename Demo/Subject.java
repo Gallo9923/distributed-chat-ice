@@ -21,9 +21,9 @@ public interface Subject extends com.zeroc.Ice.Object
 
     void detach(ObserverPrx observer, com.zeroc.Ice.Current current);
 
-    String getState(com.zeroc.Ice.Current current);
+    Message getState(com.zeroc.Ice.Current current);
 
-    void msg(String msg, com.zeroc.Ice.Current current);
+    void msg(ObserverPrx observer, Message msg, com.zeroc.Ice.Current current);
 
     /** @hidden */
     static final String[] _iceIds =
@@ -96,9 +96,10 @@ public interface Subject extends com.zeroc.Ice.Object
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         inS.readEmptyParams();
-        String ret = obj.getState(current);
+        Message ret = obj.getState(current);
         com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeString(ret);
+        ostr.writeValue(ret);
+        ostr.writePendingValues();
         inS.endWriteParams(ostr);
         return inS.setResult(ostr);
     }
@@ -114,10 +115,14 @@ public interface Subject extends com.zeroc.Ice.Object
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
-        String iceP_msg;
-        iceP_msg = istr.readString();
+        ObserverPrx iceP_observer;
+        final com.zeroc.IceInternal.Holder<Message> icePP_msg = new com.zeroc.IceInternal.Holder<>();
+        iceP_observer = ObserverPrx.uncheckedCast(istr.readProxy());
+        istr.readValue(v -> icePP_msg.value = v, Message.class);
+        istr.readPendingValues();
         inS.endReadParams();
-        obj.msg(iceP_msg, current);
+        Message iceP_msg = icePP_msg.value;
+        obj.msg(iceP_observer, iceP_msg, current);
         return inS.setResult(inS.writeEmptyParams());
     }
 

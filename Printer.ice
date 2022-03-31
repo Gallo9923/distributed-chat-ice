@@ -1,15 +1,20 @@
 module Demo
 {   
     
+    class Message
+    {
+        string message;
+        string source;
+        bool broadcast;
+    }
+
     interface Subject;
 
     // Cliente    
     interface Observer
     {
-        // void update(Subject* subject);
-        //void msg(string msg);
         void update(Subject* subject);
-        void msg(string msg);
+        void msg(Message msg);
     }
     
     // Servidor
@@ -17,10 +22,8 @@ module Demo
     {
         void attach(Observer* observer);
         void detach(Observer* observer);
-        //void getState(Observer* observer);
-        string getState();
-        //void receiveMsg(Observer* observer, string msg);
-        void msg(string msg);
+        Message getState();
+        void msg(Observer* observer, Message msg);
     }
     
 }

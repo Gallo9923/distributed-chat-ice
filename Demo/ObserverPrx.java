@@ -53,22 +53,22 @@ public interface ObserverPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
-    default void msg(String msg)
+    default void msg(Message msg)
     {
         msg(msg, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void msg(String msg, java.util.Map<String, String> context)
+    default void msg(Message msg, java.util.Map<String, String> context)
     {
         _iceI_msgAsync(msg, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<Void> msgAsync(String msg)
+    default java.util.concurrent.CompletableFuture<Void> msgAsync(Message msg)
     {
         return _iceI_msgAsync(msg, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> msgAsync(String msg, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> msgAsync(Message msg, java.util.Map<String, String> context)
     {
         return _iceI_msgAsync(msg, context, false);
     }
@@ -80,11 +80,12 @@ public interface ObserverPrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_msgAsync(String iceP_msg, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_msgAsync(Message iceP_msg, java.util.Map<String, String> context, boolean sync)
     {
         com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "msg", null, sync, null);
         f.invoke(false, context, null, ostr -> {
-                     ostr.writeString(iceP_msg);
+                     ostr.writeValue(iceP_msg);
+                     ostr.writePendingValues();
                  }, null);
         return f;
     }

@@ -1,9 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import Demo.Message;
 public class Client
-{
+{   
+    
+    public static final String BROADCAST = "BC ";
     public static void main(String[] args)
     {
         java.util.List<String> extraArgs = new java.util.ArrayList<>();
@@ -62,16 +64,23 @@ public class Client
                 } catch (IOException e) {
                     continue;
                 }
-            
+                
                 if(line != null && line.equalsIgnoreCase(EXIT_STRING)){
                     System.out.println("Exiting...");
                     break;
                 }
+
+                Message msg = new Message();
+                msg.source = hostname;
+
+                if (line.startsWith(BROADCAST, 0)){
+                    msg.broadcast = true;
+                    msg.message = line.substring(BROADCAST.length(), line.length());
+                }else{
+                    msg.message = line; 
+                }
                 
-                
-                line = hostname + ": " + line;
-                // server.msg(callback, line);
-                server.msg(line);
+                server.msg(observer, msg);
             
             } while(true);
 

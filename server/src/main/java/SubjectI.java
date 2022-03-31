@@ -2,17 +2,15 @@ import java.util.ArrayList;
 
 import com.zeroc.Ice.Current;
 
+import Demo.Message;
 import Demo.ObserverPrx;
 import Demo.SubjectPrx;
 
 public class SubjectI implements Demo.Subject{
 
-    public static final String BROADCAST = "BC";
-    public static final String MSG_PREFIX = "recibido desde ";
-
     private ArrayList<ObserverPrx> observers;
 
-    private String state;
+    private Message state;
 
     public static SubjectPrx proxy;
 
@@ -62,30 +60,32 @@ public class SubjectI implements Demo.Subject{
 
 
     @Override
-    public String getState(Current current) {
+    public Message getState(Current current) {
         return this.state;
     }
 
+    private void processMessage(ObserverPrx observer, Message msg){
+    
+        if (msg.broadcast){
+            this.state = msg;
+            this.notifyObservers();    
+        }else{
+            Message msgToSend = new Message(msg.message, this.hostname, false);
+            observer.msg(msgToSend);
+        }
+        
+        System.out.println(msg.source + ": " + msg.message);
+    }
+
     @Override
-    public void msg(String msg, Current current) {
+    public void msg(ObserverPrx observer, Message msg, Current current) {
         
         Thread t = new Thread() {
             public void run() {
-                processMessage(msg);
+                processMessage(observer, msg);
             }
         };
         t.start();
-    
-    }
-
-    private void processMessage(String msg){
-        String msgToSend = MSG_PREFIX + this.hostname + ": " + msg;
         
-        if (msg.contains(BROADCAST)){
-            this.state = msgToSend;
-            this.notifyObservers();    
-        }
-
-        System.out.println(msg);
     }
 }

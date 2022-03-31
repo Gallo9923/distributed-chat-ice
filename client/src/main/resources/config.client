@@ -3,7 +3,7 @@
 # "hello" object in the server.
 #
 Subject.Proxy=subject:tcp -h localhost -p 9099
-Client.Endpoints=default:tcp -p 9089
+Client.Endpoints=default:tcp -p 9088
 
 #
 # Uncomment to use the WebSocket transports instead.
