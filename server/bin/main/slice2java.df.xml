@@ -1,0 +1,15 @@
+<state>
+  <timestamp value='1648748980737' />
+  <sourceSet name='default'>
+    <source name='G:\My Drive\______Doceavo Semestre\ArquiSoft\Tarea 4 - Callback\callback-printer\Printer.ice'>
+      <file name='G:\My Drive\______Doceavo Semestre\ArquiSoft\Tarea 4 - Callback\callback-printer\server\build\generated-src\Demo\Observer.java' />
+      <file name='G:\My Drive\______Doceavo Semestre\ArquiSoft\Tarea 4 - Callback\callback-printer\server\build\generated-src\Demo\Subject.java' />
+      <file name='G:\My Drive\______Doceavo Semestre\ArquiSoft\Tarea 4 - Callback\callback-printer\server\build\generated-src\Demo\ObserverPrx.java' />
+      <file name='G:\My Drive\______Doceavo Semestre\ArquiSoft\Tarea 4 - Callback\callback-printer\server\build\generated-src\Demo\_ObserverPrxI.java' />
+      <file name='G:\My Drive\______Doceavo Semestre\ArquiSoft\Tarea 4 - Callback\callback-printer\server\build\generated-src\Demo\SubjectPrx.java' />
+      <file name='G:\My Drive\______Doceavo Semestre\ArquiSoft\Tarea 4 - Callback\callback-printer\server\build\generated-src\Demo\_SubjectPrxI.java' />
+    </source>
+    <arg value='C:\Program Files\ZeroC\Ice-3.7.7\\bin\slice2java.exe' />
+    <arg value='-IC:\Program Files\ZeroC\Ice-3.7.7\\slice' />
+  </sourceSet>
+</state>
