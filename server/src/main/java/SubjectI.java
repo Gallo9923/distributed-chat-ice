@@ -32,7 +32,9 @@ public class SubjectI implements Demo.Subject{
         for (ObserverPrx observer : this.observers){
             try {
                 observer.update(SubjectI.proxy);
-            }catch(Exception e){ // TODO: Find the correct exception to catch
+                
+            // TODO: Find the correct exception to catch
+            }catch(Exception e){ 
                 this.observers.remove(observer);
             }
             

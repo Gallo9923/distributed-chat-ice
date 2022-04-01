@@ -2,7 +2,7 @@
 # The client reads this property to create the reference to the
 # "hello" object in the server.
 #
-Subject.Proxy=subject:tcp -h localhost -p 9099
+Subject.Proxy=subject:tcp -h hgrid16 -p 9099
 Client.Endpoints=default:tcp -p 9088
 
 #
@@ -12,4 +12,4 @@ Client.Endpoints=default:tcp -p 9088
 
 
 # Only listen on the ZeroTier's LIASOn1 interface by default.
-Ice.Default.Host=localhost
+Ice.Default.Host=hgrid17

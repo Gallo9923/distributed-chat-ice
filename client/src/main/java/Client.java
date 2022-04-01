@@ -93,7 +93,7 @@ public class Client
             System.out.println("Server could not be reached!");
             System.out.println("Closing...");
             // TODO: Remove this print
-            System.out.println(e.getStackTrace());
+            // System.out.println(e.getStackTrace());
         } finally {
             server.detach(observer);
         }
