@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 import com.zeroc.Ice.Current;
 
@@ -16,8 +17,12 @@ public class SubjectI implements Demo.Subject{
 
     private String hostname;
 
+    private Semaphore sem;
+
     public SubjectI(SubjectPrx proxy, String hostname){
         
+        this.sem = new Semaphore(1, true);
+
         this.observers = new ArrayList<ObserverPrx>();
 
         this.state = null;
@@ -28,38 +33,69 @@ public class SubjectI implements Demo.Subject{
     }
 
     private void notifyObservers(){
-        
+        try {
+            this.sem.acquire();
+            doNotifyObservers();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            this.sem.release();
+        }
+    }
+
+    private void doNotifyObservers(){
+        ArrayList<ObserverPrx> observersToRemove = new ArrayList<ObserverPrx>();
         for (ObserverPrx observer : this.observers){
             try {
                 observer.update(SubjectI.proxy);
-                
             // TODO: Find the correct exception to catch
             }catch(Exception e){ 
-                this.observers.remove(observer);
+                observersToRemove.add(observer);
             }
-            
         }
+        observers.removeAll(observersToRemove);
     }
 
     @Override
     public void attach(ObserverPrx observer, Current current) {
-        
+        try {
+            this.sem.acquire();
+            doAttach(observer);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            this.sem.release();
+        }
+    }
+
+    private void doAttach(ObserverPrx observer){
+
         if (!this.observers.contains(observer)){
             this.observers.add(observer);
 
             System.out.println("ATTACHED: " + observer.toString());
         }
+
     }
 
     @Override
     public void detach(ObserverPrx observer, Current current) {
-        
+        try {
+            this.sem.acquire();
+            doDetach(observer);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally{
+            this.sem.release();
+        }
+    }
+
+    private void doDetach(ObserverPrx observer){
         boolean removed = this.observers.remove(observer);
         if (removed){
             System.out.println("DETACHED: " + observer.toString());
         }
     }
-
 
     @Override
     public Message getState(Current current) {
