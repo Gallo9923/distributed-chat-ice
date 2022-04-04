@@ -53,7 +53,11 @@ public class SubjectI implements Demo.Subject{
                 observersToRemove.add(observer);
             }
         }
-        observers.removeAll(observersToRemove);
+        
+        for (ObserverPrx observer : observersToRemove){
+            doDetach(observer);
+        }
+
     }
 
     @Override
